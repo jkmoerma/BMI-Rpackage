@@ -10,20 +10,12 @@
 library(excel.link)
 library(rstatix)
 library(knitr)
-library(glmnet)
-library(bnlearn)
 library(inspectdf)
-library(mice)
-library(dplyr)
-library(tidyr)
-library(tibble)
-library(ggplot2)
 library(corrplot)
 library(qgraph)
 library(DMwR)
-library(foreach)
-library(doParallel)
-library(pROC)
+
+library(BMIthesisProject)
 
 # set default width adn height for saving ggplot objects
 ggplotWidth <- 5
@@ -82,18 +74,8 @@ metabolites <- names(df)[-which(names(df)%in%c("Maternal Age","BMI", "Race", "Ag
                                                "ID", "ObesityClass", "met_025", "met_040", 
                                                "met_042", "met_082", "met_108"))]
 
-source("convertToTexTable.R")
-source("dataExploration.R")
-source("linearRegression.R")
-source("reclassify.R")
-source("metabolicAnalysis.R")
-source("outliers.R")
-source("smoking.R")
-
 ## =============================================================================
 # Output results of the data exploration
-
-#source("dataExploration.R")
 
 # tabulate number of patients for every ethnicity and BMI class
 biometrics <- tableBiometrics(df)
@@ -312,8 +294,6 @@ data_influential <- filtered_data$outliers
 
 ## =============================================================================
 # Output results of the regression analysis
-
-#source("linearRegression.R")
 
 # white ethnicity data
 
@@ -593,8 +573,6 @@ modelDiagnostics(effects=formulationBlack$effect, types=formulationBlack$type,
 ## =============================================================================
 # Output results of reclassifying overweight
 
-#source("reclassify.R")
-
 
 # predict training set patients with same ethnicity predictive model
 data_white_train$predicted <- 
@@ -846,8 +824,6 @@ ggsave("reclassify_fractions.pdf", p_fractions, width=ggplotWidth, height=ggplot
 ## =============================================================================
 # Output results of analysis on metabolic BMI
 
-#source("metabolicAnalysis.R")
-
 # Calculate scaled model coefficients + 95% CI from bootstrap replication
 
 if (!file.exists("metabolic_CIcoeffsMain.pdf")) {
@@ -892,8 +868,6 @@ if (!file.exists("metabolic_CIcoeffsMain.pdf")) {
 
 ## =============================================================================
 # Output results of analysis on metabolites related to obesity
-
-#source("outliers.R")
 
 # illustrate the interpretation of metabolite level differences among outliers
 
@@ -985,8 +959,6 @@ ggsave("outliers_levelsONblack.pdf", blackPlotsDifference$obese, width=ggplotWid
 
 ## =============================================================================
 # Output results of analysis on smoking patients
-
-#source("smoking.R")
 
 # predict smoking patients with same ethnicity predictive model
 data_white_smoking$predicted <- 
@@ -1146,8 +1118,6 @@ ggsave("smoking_fractionBlack.pdf", blackSmokingContr, width=ggplotWidth, height
 ## =============================================================================
 # Output results of discussion
 
-#source("discussion.R")
-  
 # is AUC of test set predictions inferior to AUC of training set?
 # post-hoc analysis on data splitting
 
